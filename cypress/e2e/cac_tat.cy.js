@@ -113,5 +113,36 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.cadSuccess()
     })
 
+    it('Marcar e desmarcar 1 Contato', () => {
+        cy.get('#email-checkbox').should('not.be.checked').check().should('be.checked')
+        cy.get('#email-checkbox').should('be.checked').uncheck().should('not.be.checked')
+    })
+
+    it('Marcar e desmarcar todo os Contatos', () => {
+        cy.get('input[type="checkbox"]').should('not.be.checked').check().should('be.checked')
+        cy.get('input[type="checkbox"]').should('be.checked').uncheck().should('not.be.checked')
+    })
+
+    it('Marcar todos e desmarcar ultimo Contatos', () => {
+        cy.get('input[type="checkbox"]')
+            .should('not.be.checked')
+            .check().should('be.checked')
+            .last().uncheck().should('not.be.checked')
+    })
+
+    it('Anexar arquivo', () => {
+        cy.get('input[type="file"]')
+            .should('not.have.value')
+            .selectFile('cypress/fixtures/example.json')
+            .should(($input) => {
+                expect($input[0].files[0].name).to.equal('example.json')
+            })
+    })
+
+    it('Abrir outra aba do navegador', () => {
+        cy.get('#privacy a').invoke('removeAttr', 'target')
+        .click()
+        .should('be.visible', 'Talking About Testing')
+    })
 
 })
